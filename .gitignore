@@ -1,0 +1,7 @@
+.gitignore
+.settings/
+/classes/
+*.iml
+*.ipr
+*.iws
+.idea/
