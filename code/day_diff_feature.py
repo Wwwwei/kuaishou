@@ -1,7 +1,6 @@
 import datetime
 import pandas as pd
 import numpy as np
-import stats as sts
 
 
 def get_diff_from_ls(x):
@@ -34,14 +33,14 @@ def get_launch_day_diff_feature(start_day, end_day):
         ['user_id', 'day']]
     launch_temp = df.groupby(['user_id']).aggregate(lambda x: list(set(x))).reset_index()  # 是否去重
     launch_temp.day = launch_temp.day.apply(lambda x: get_diff_from_ls(x))
-    launch_temp['l_day_diff_max'] = launch_temp.day.apply(lambda x: max(x) if len(x) != 0 else -1)
-    launch_temp['l_day_diff_min'] = launch_temp.day.apply(lambda x: min(x) if len(x) != 0 else -1)
-    launch_temp['l_day_diff_mean'] = launch_temp.day.apply(lambda x: np.mean(x) if len(x) != 0 else -1)
-    launch_temp['l_day_diff_std'] = launch_temp.day.apply(lambda x: np.std(x) if len(x) != 0 else -1)
+    launch_temp['l_day_diff_max'] = launch_temp.day.apply(lambda x: max(x) if len(x) != 0 else np.nan)
+    launch_temp['l_day_diff_min'] = launch_temp.day.apply(lambda x: min(x) if len(x) != 0 else np.nan)
+    launch_temp['l_day_diff_mean'] = launch_temp.day.apply(lambda x: np.mean(x) if len(x) != 0 else np.nan)
+    launch_temp['l_day_diff_std'] = launch_temp.day.apply(lambda x: np.std(x) if len(x) != 0 else np.nan)
     launch_temp['l_day_diff_skew'] = launch_temp.day.apply(lambda x: pd.Series(x).skew())
     launch_temp['l_day_diff_kurt'] = launch_temp.day.apply(lambda x: pd.Series(x).kurt())
     launch = pd.merge(launch, launch_temp.drop(['day'], axis=1), on=['user_id'], how='left')
-    return launch.fillna(-1)  # -1
+    return launch  # -1
 
 
 # 拍摄 日期差分 特征
@@ -51,14 +50,14 @@ def get_video_day_diff_feature(start_day, end_day):
         ['user_id', 'day']]
     video_temp = df.groupby(['user_id']).aggregate(lambda x: list(set(x))).reset_index()  # 是否去重
     video_temp.day = video_temp.day.apply(lambda x: get_diff_from_ls(x))
-    video_temp['v_day_diff_max'] = video_temp.day.apply(lambda x: max(x) if len(x) != 0 else -1)
-    video_temp['v_day_diff_min'] = video_temp.day.apply(lambda x: min(x) if len(x) != 0 else -1)
-    video_temp['v_day_diff_mean'] = video_temp.day.apply(lambda x: np.mean(x) if len(x) != 0 else -1)
-    video_temp['v_day_diff_std'] = video_temp.day.apply(lambda x: np.std(x) if len(x) != 0 else -1)
+    video_temp['v_day_diff_max'] = video_temp.day.apply(lambda x: max(x) if len(x) != 0 else np.nan)
+    video_temp['v_day_diff_min'] = video_temp.day.apply(lambda x: min(x) if len(x) != 0 else np.nan)
+    video_temp['v_day_diff_mean'] = video_temp.day.apply(lambda x: np.mean(x) if len(x) != 0 else np.nan)
+    video_temp['v_day_diff_std'] = video_temp.day.apply(lambda x: np.std(x) if len(x) != 0 else np.nan)
     video_temp['v_day_diff_skew'] = video_temp.day.apply(lambda x: pd.Series(x).skew())
     video_temp['v_day_diff_kurt'] = video_temp.day.apply(lambda x: pd.Series(x).kurt())
     video = pd.merge(video, video_temp.drop(['day'], axis=1), on=['user_id'], how='left')
-    return video.fillna(-1)  # -1
+    return video  # -1
 
 
 # 行为 日期差分 特征
