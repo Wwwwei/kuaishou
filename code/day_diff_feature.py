@@ -31,7 +31,7 @@ def get_launch_day_diff_feature(start_day, end_day):
     launch = app_launch_log_df[['user_id']].drop_duplicates()
     df = app_launch_log_df[(app_launch_log_df.day >= start_day) & (app_launch_log_df.day <= end_day)][
         ['user_id', 'day']]
-    launch_temp = df.groupby(['user_id']).aggregate(lambda x: list(set(x))).reset_index()  # 是否去重
+    launch_temp = df.groupby(['user_id']).aggregate(lambda x: list(x)).reset_index()  # 是否去重
     launch_temp.day = launch_temp.day.apply(lambda x: get_diff_from_ls(x))
     launch_temp['l_day_diff_max'] = launch_temp.day.apply(lambda x: max(x) if len(x) != 0 else np.nan)
     launch_temp['l_day_diff_min'] = launch_temp.day.apply(lambda x: min(x) if len(x) != 0 else np.nan)
@@ -48,7 +48,7 @@ def get_video_day_diff_feature(start_day, end_day):
     video = video_create_log_df[['user_id']].drop_duplicates()
     df = video_create_log_df[(video_create_log_df.day >= start_day) & (video_create_log_df.day <= end_day)][
         ['user_id', 'day']]
-    video_temp = df.groupby(['user_id']).aggregate(lambda x: list(set(x))).reset_index()  # 是否去重
+    video_temp = df.groupby(['user_id']).aggregate(lambda x: list(x)).reset_index()  # 是否去重
     video_temp.day = video_temp.day.apply(lambda x: get_diff_from_ls(x))
     video_temp['v_day_diff_max'] = video_temp.day.apply(lambda x: max(x) if len(x) != 0 else np.nan)
     video_temp['v_day_diff_min'] = video_temp.day.apply(lambda x: min(x) if len(x) != 0 else np.nan)
@@ -65,7 +65,7 @@ def get_action_day_diff_feature(start_day, end_day):
     action = user_activity_log_df[['user_id']].drop_duplicates()
     df = user_activity_log_df[(user_activity_log_df.day >= start_day) & (user_activity_log_df.day <= end_day)][
         ['user_id', 'day']]
-    action_temp = df.groupby(['user_id']).aggregate(lambda x: list(set(x))).reset_index()  # 是否去重
+    action_temp = df.groupby(['user_id']).aggregate(lambda x: list(x)).reset_index()  # 是否去重
     action_temp.day = action_temp.day.apply(lambda x: get_diff_from_ls(x))
     action_temp['a_day_diff_max'] = action_temp.day.apply(lambda x: max(x) if len(x) != 0 else np.nan)
     action_temp['a_day_diff_min'] = action_temp.day.apply(lambda x: min(x) if len(x) != 0 else np.nan)
